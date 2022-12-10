@@ -20,16 +20,10 @@ def searching(
         case "a":
             return searching(total + 1, flow, pattern, box, x + 1, y)
         case "b":
-            return searching(total + 1, flow, pattern, box, x - 1, y)
-        case "c":
             return searching(total + 1, flow, pattern, box, x, y + 1)
-        case "d":
-            return searching(total + 1, flow, pattern, box, x, y - 1)
-        case "e":
+        case "c":
             return searching(total + 1, flow, pattern, box, x + 1, y + 1)
-        case "f":
-            return searching(total + 1, flow, pattern, box, x - 1, y - 1)
-        case "g":
+        case "d":
             return searching(total + 1, flow, pattern, box, x - 1, y + 1)
 
 
@@ -41,10 +35,7 @@ def pattern_matching(pattern: str) -> bool:
                 b = searching(0, "b", pattern, BOX, index_x, index_y)
                 c = searching(0, "c", pattern, BOX, index_x, index_y)
                 d = searching(0, "d", pattern, BOX, index_x, index_y)
-                e = searching(0, "e", pattern, BOX, index_x, index_y)
-                f = searching(0, "f", pattern, BOX, index_x, index_y)
-                g = searching(0, "g", pattern, BOX, index_x, index_y)
-                if a == 3 or b == 3 or c == 3 or d == 3 or e == 3 or f == 3 or g == 3:
+                if a == 3 or b == 3 or c == 3 or d == 3:
                     return True
     return False
 
