@@ -1,9 +1,23 @@
+# matchState = {
+#     "OPEN": "Match Is Open",
+#     "ONGOING": "Match Is Open",
+#     "FINISH": "Match Is Finish",
+# }
+
+# resultState = {
+#     "ONE": "The Winner is Player One",
+#     "TWO": "The Winner is Player Two",
+#     "DRAW": "The Match is Draw",
+# }
+
+
 class TicTacToe:
     def __init__(self, box: list[list[str]]):
         self.box: list[list[str]] = box
         self.len_x = len(box[0])
-        # self.is_win: bool = False
-        # self.total_round: int = 0
+        # self.match_state = matchState.get("OPEN")
+        # self.total_round = 0
+        # self.result = resultState.get("DRAW")
 
     def detectCoordinate(self, position: int):
         y = 0
@@ -13,13 +27,12 @@ class TicTacToe:
             # if we get the modulo if box length
             # we add x position with one
             # and reset y position back to zero
-            if val % 3 == 0:
+            if val % self.len_x == 0:
                 x = x + 1
                 y = 0
             # else we add new y with one
             else:
                 y = y + 1
-
         return x, y
 
     def inputAndReadData(self, position: int, char: str):
@@ -51,7 +64,6 @@ class TicTacToe:
         # detect if position is filled or not
         if self.box[x][y] == "-":
             return True
-
         return False
 
     def checkingPattern(
@@ -78,8 +90,7 @@ class TicTacToe:
 
         # we're continue searching with specific flow
         # and adding total with one
-        # since we're still searching until reach
-        # total equal length of box
+        # since we're still searching until reach final total
         match flow:
             # if flow is going to right side
             case "right":
@@ -95,6 +106,8 @@ class TicTacToe:
                 return self.checkingPattern(total + 1, flow, pattern, x - 1, y + 1)
 
     def patternMatching(self, pattern: str) -> bool:
+        # self.total_round = self.total_round + 1
+
         # iterate through all position
         for index_y, value_y in enumerate(self.box):
             for index_x, value_x in enumerate(value_y):
