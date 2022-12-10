@@ -1,6 +1,7 @@
 class TicTacToe:
     def __init__(self, box: list[list[str]]):
         self.box: list[list[str]] = box
+        self.len_x = len(box[0])
         # self.is_win: bool = False
         # self.total_round: int = 0
 
@@ -25,18 +26,22 @@ class TicTacToe:
         # transform position into coordinate
         x, y = self.detectCoordinate(position)
 
-        # iterate through cell if cell is found
-        # replace with the char
+        # iterate through cell
         for index_y, value_y in enumerate(self.box):
             for index_x, value_x in enumerate(value_y):
                 remove_pos = value_x
 
+                # if cell is found
+                # replace with the char
                 if y == index_x and x == index_y:
                     self.box[x][y] = char
                     remove_pos = char
 
-                if index_x == 2:
+                # if index x is same with size of x
+                # just print new line
+                if index_x == (self.len_x - 1):
                     print(remove_pos)
+                # otherwise just separate with space
                 else:
                     print(remove_pos, end=" ")
 
@@ -53,8 +58,8 @@ class TicTacToe:
         self, total: int, flow: str, pattern: str, x: int, y: int
     ) -> int:
         # if len of pattern equal with total pattern will return
-        if total == len(self.box):
-            return len(self.box)
+        if total == self.len_x:
+            return self.len_x
 
         # if position x is less than zero or
         # if position x more than equal length of x-box or
@@ -64,7 +69,7 @@ class TicTacToe:
         # just return zero
         if (
             x < 0
-            or x >= len(self.box)
+            or x >= self.len_x
             or y < 0
             or y >= len(self.box[x])
             or self.box[y][x] != pattern
@@ -72,6 +77,9 @@ class TicTacToe:
             return 0
 
         # we're continue searching with specific flow
+        # and adding total with one
+        # since we're still searching until reach
+        # total equal length of box
         match flow:
             # if flow is going to right side
             case "right":
@@ -95,17 +103,17 @@ class TicTacToe:
                 if value_y[index_x] == pattern and value_x == pattern:
                     if (
                         self.checkingPattern(0, "right", pattern, index_x, index_y)
-                        == len(self.box)
+                        == self.len_x
                         or self.checkingPattern(0, "down", pattern, index_x, index_y)
-                        == len(self.box)
+                        == self.len_x
                         or self.checkingPattern(
                             0, "right-down", pattern, index_x, index_y
                         )
-                        == len(self.box)
+                        == self.len_x
                         or self.checkingPattern(
                             0, "left-down", pattern, index_x, index_y
                         )
-                        == len(self.box)
+                        == self.len_x
                     ):
                         return True
         return False
