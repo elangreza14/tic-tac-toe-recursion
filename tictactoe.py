@@ -27,7 +27,7 @@ class TicTacToe:
             else:
                 y = y + 1
 
-        # just return coordinate    
+        # just return coordinate
         return x, y
 
     def __input_and_read_data(self, position: int, char: str):
@@ -63,9 +63,7 @@ class TicTacToe:
         # just return false
         return False
 
-    def __checking_pattern(
-        self, total: int, flow: str, pattern: str, x: int, y: int
-    ) -> int:
+    def __checking_pattern(self, total: int, flow: str, pattern: str, x: int, y: int) -> int:
         # if len of pattern equal with total pattern will return
         if total == self.__len_x:
             return self.__len_x
@@ -76,13 +74,7 @@ class TicTacToe:
         # if position y more than equal length of y-box or
         # if box[y][x] is not equal with current pattern
         # just return zero
-        if (
-            x < 0
-            or x >= self.__len_x
-            or y < 0
-            or y >= len(self.box[x])
-            or self.box[y][x] != pattern
-        ):
+        if x < 0 or x >= self.__len_x or y < 0 or y >= len(self.box[x]) or self.box[y][x] != pattern:
             return 0
 
         # we're continue searching with specific flow
@@ -104,7 +96,7 @@ class TicTacToe:
                 x = x - 1
                 y = y + 1
 
-        # continue running recursion   
+        # continue running recursion
         return self.__checking_pattern(total + 1, flow, pattern, x, y)
 
     def __pattern_matching(self, pattern: str) -> bool:
@@ -114,21 +106,10 @@ class TicTacToe:
                 # if we find value with the same pattern
                 # execute search function
                 if value_y[index_x] == pattern and value_x == pattern:
-                    if (
-                        self.__checking_pattern(0, "right", pattern, index_x, index_y)
-                        == self.__len_x
-                        or self.__checking_pattern(0, "down", pattern, index_x, index_y)
-                        == self.__len_x
-                        or self.__checking_pattern(
-                            0, "right-down", pattern, index_x, index_y
-                        )
-                        == self.__len_x
-                        or self.__checking_pattern(
-                            0, "left-down", pattern, index_x, index_y
-                        )
-                        == self.__len_x
-                    ):
-                        return True
+                    for flow in ["right", "right-down", "down", "left-down"]:
+                        if self.__checking_pattern(0, flow, pattern, index_x, index_y) == self.__len_x:
+                            return True
+
         return False
 
     def is_finished(self) -> bool:
