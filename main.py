@@ -1,5 +1,4 @@
-from math import *
-from tictactoe import *
+from tictactoe import TicTacToe
 
 
 def detect_input_two():
@@ -12,11 +11,11 @@ def detect_input_two():
     )
 
     while True:
-        if ttt.isFinished():
-            print(ttt.getFinalResult())
+        if ttt.is_finished():
+            print(ttt.get_final_result())
             break
 
-        input_player = input(f"round {ttt.getCurrentRound()}: ")
+        input_player = input(f"round {ttt.get_current_round()}: ")
 
         if input_player.isdigit():
             num = int(input_player)

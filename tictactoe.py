@@ -1,4 +1,4 @@
-resultState = {
+result_state = {
     "ONE": "The Winner is Player One",
     "TWO": "The Winner is Player Two",
     "DRAW": "The Match is Draw",
@@ -8,11 +8,11 @@ resultState = {
 class TicTacToe:
     def __init__(self, box: list[list[str]]):
         self.box: list[list[str]] = box
-        self.len_x = len(box[0])
-        self.total_round = 0
-        self.winner = resultState.get("DRAW")
+        self.__len_x = len(box[0])
+        self.__total_round = 0
+        self.__winner = result_state.get("DRAW")
 
-    def detectCoordinate(self, position: int) -> tuple[int, int]:
+    def __detect_coordinate(self, position: int) -> tuple[int, int]:
         y = 0
         x = 0
         # iterate position through the size of the box
@@ -20,7 +20,7 @@ class TicTacToe:
             # if we get the modulo if box length
             # we add x position with one
             # and reset y position back to zero
-            if val % self.len_x == 0:
+            if val % self.__len_x == 0:
                 x = x + 1
                 y = 0
             # else we add new y with one
@@ -28,9 +28,9 @@ class TicTacToe:
                 y = y + 1
         return x, y
 
-    def inputAndReadData(self, position: int, char: str):
+    def __input_and_read_data(self, position: int, char: str):
         # transform position into coordinate
-        x, y = self.detectCoordinate(position)
+        x, y = self.__detect_coordinate(position)
 
         # iterate through cell
         for index_y, value_y in enumerate(self.box):
@@ -45,26 +45,26 @@ class TicTacToe:
 
                 # if index x is same with size of x
                 # just print new line
-                if index_x == (self.len_x - 1):
+                if index_x == (self.__len_x - 1):
                     print(remove_pos)
                 # otherwise just separate with space
                 else:
                     print(remove_pos, end=" ")
 
-    def detectCoordinateIsEmpty(self, position: int) -> bool:
+    def __detect_coordinate_is_empty(self, position: int) -> bool:
         # transform position into coordinate
-        x, y = self.detectCoordinate(position)
+        x, y = self.__detect_coordinate(position)
         # detect if position is filled or not
         if self.box[x][y] == "-":
             return True
         return False
 
-    def checkingPattern(
+    def __checking_pattern(
         self, total: int, flow: str, pattern: str, x: int, y: int
     ) -> int:
         # if len of pattern equal with total pattern will return
-        if total == self.len_x:
-            return self.len_x
+        if total == self.__len_x:
+            return self.__len_x
 
         # if position x is less than zero or
         # if position x more than equal length of x-box or
@@ -74,7 +74,7 @@ class TicTacToe:
         # just return zero
         if (
             x < 0
-            or x >= self.len_x
+            or x >= self.__len_x
             or y < 0
             or y >= len(self.box[x])
             or self.box[y][x] != pattern
@@ -87,20 +87,18 @@ class TicTacToe:
         match flow:
             # if flow is going to right side
             case "right":
-                return self.checkingPattern(total + 1, flow, pattern, x + 1, y)
+                return self.__checking_pattern(total + 1, flow, pattern, x + 1, y)
             # if flow is going to right side
             case "down":
-                return self.checkingPattern(total + 1, flow, pattern, x, y + 1)
+                return self.__checking_pattern(total + 1, flow, pattern, x, y + 1)
             # if flow is going to right and down side
             case "right-down":
-                return self.checkingPattern(total + 1, flow, pattern, x + 1, y + 1)
+                return self.__checking_pattern(total + 1, flow, pattern, x + 1, y + 1)
             # if flow is going to left and down side
             case "left-down":
-                return self.checkingPattern(total + 1, flow, pattern, x - 1, y + 1)
+                return self.__checking_pattern(total + 1, flow, pattern, x - 1, y + 1)
 
-    def patternMatching(self, pattern: str) -> bool:
-        # self.total_round = self.total_round + 1
-
+    def __pattern_matching(self, pattern: str) -> bool:
         # iterate through all position
         for index_y, value_y in enumerate(self.box):
             for index_x, value_x in enumerate(value_y):
@@ -108,46 +106,46 @@ class TicTacToe:
                 # execute search function
                 if value_y[index_x] == pattern and value_x == pattern:
                     if (
-                        self.checkingPattern(0, "right", pattern, index_x, index_y)
-                        == self.len_x
-                        or self.checkingPattern(0, "down", pattern, index_x, index_y)
-                        == self.len_x
-                        or self.checkingPattern(
+                        self.__checking_pattern(0, "right", pattern, index_x, index_y)
+                        == self.__len_x
+                        or self.__checking_pattern(0, "down", pattern, index_x, index_y)
+                        == self.__len_x
+                        or self.__checking_pattern(
                             0, "right-down", pattern, index_x, index_y
                         )
-                        == self.len_x
-                        or self.checkingPattern(
+                        == self.__len_x
+                        or self.__checking_pattern(
                             0, "left-down", pattern, index_x, index_y
                         )
-                        == self.len_x
+                        == self.__len_x
                     ):
                         return True
         return False
 
-    def isFinished(self) -> bool:
-        if self.winner != resultState.get("DRAW") or self.total_round == 9:
+    def is_finished(self) -> bool:
+        if self.__winner != result_state.get("DRAW") or self.__total_round == 9:
             return True
         return False
 
-    def getCurrentRound(self) -> int:
-        return self.total_round + 1
+    def get_current_round(self) -> int:
+        return self.__total_round + 1
 
-    def getFinalResult(self) -> str:
-        if self.isFinished():
-            return self.winner
+    def get_final_result(self) -> str:
+        if self.is_finished():
+            return self.__winner
         return "Match Still Running"
 
     def run(self, num: int):
-        if self.detectCoordinateIsEmpty(num):
-            if self.total_round % 2 == 0:
-                self.inputAndReadData(num, "X")
-                if self.patternMatching("X"):
-                    self.winner = resultState.get("ONE")
+        if self.__detect_coordinate_is_empty(num):
+            if self.__total_round % 2 == 0:
+                self.__input_and_read_data(num, "X")
+                if self.__pattern_matching("X"):
+                    self.__winner = result_state.get("ONE")
             else:
-                self.inputAndReadData(num, "O")
-                if self.patternMatching("O"):
-                    self.winner = resultState.get("TWO")
+                self.__input_and_read_data(num, "O")
+                if self.__pattern_matching("O"):
+                    self.__winner = result_state.get("TWO")
 
-            self.total_round = self.total_round + 1
+            self.__total_round = self.__total_round + 1
         else:
             print(f"cannot use position")
