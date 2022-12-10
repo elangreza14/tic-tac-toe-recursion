@@ -11,8 +11,6 @@ class TicTacToe:
         self.len_x = len(box[0])
         self.total_round = 0
         self.winner = resultState.get("DRAW")
-        # self.match_state = matchState.get("OPEN")
-        # self.result = resultState.get("DRAW")
 
     def detectCoordinate(self, position: int) -> tuple[int, int]:
         y = 0
