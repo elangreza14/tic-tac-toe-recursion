@@ -10,32 +10,50 @@ BOX = [
 def searching(
     total: int, flow: str, pattern: str, box: list[list[str]], x: int, y: int
 ) -> int:
-    if total == 3:
-        return 3
+    # if len of pattern equal with total pattern will return
+    if total == len(box):
+        return len(box)
 
+    # if position x is less than zero or
+    # if position x more than equal length of x-box or
+    # if position y is less than zero or
+    # if position y more than equal length of y-box or
+    # if box[y][x] is not equal with current pattern
+    # just return zero
     if x < 0 or x >= len(box) or y < 0 or y >= len(box[x]) or box[y][x] != pattern:
         return 0
 
+    # we're continue searching with specific flow
     match flow:
-        case "a":
+        # if flow is going to right side
+        case "right":
             return searching(total + 1, flow, pattern, box, x + 1, y)
-        case "b":
+        # if flow is going to right side
+        case "down":
             return searching(total + 1, flow, pattern, box, x, y + 1)
-        case "c":
+        # if flow is going to right and down side
+        case "right-down":
             return searching(total + 1, flow, pattern, box, x + 1, y + 1)
-        case "d":
+        # if flow is going to left and down side
+        case "left-down":
             return searching(total + 1, flow, pattern, box, x - 1, y + 1)
 
 
 def pattern_matching(pattern: str) -> bool:
+    # iterate through all position
     for index_y, value_y in enumerate(BOX):
         for index_x, value_x in enumerate(value_y):
+            # if we find value with the same pattern
+            # execute search function
             if value_y[index_x] == pattern and value_x == pattern:
-                a = searching(0, "a", pattern, BOX, index_x, index_y)
-                b = searching(0, "b", pattern, BOX, index_x, index_y)
-                c = searching(0, "c", pattern, BOX, index_x, index_y)
-                d = searching(0, "d", pattern, BOX, index_x, index_y)
-                if a == 3 or b == 3 or c == 3 or d == 3:
+                if (
+                    searching(0, "right", pattern, BOX, index_x, index_y) == len(BOX)
+                    or searching(0, "down", pattern, BOX, index_x, index_y) == len(BOX)
+                    or searching(0, "right-down", pattern, BOX, index_x, index_y)
+                    == len(BOX)
+                    or searching(0, "left-down", pattern, BOX, index_x, index_y)
+                    == len(BOX)
+                ):
                     return True
     return False
 
@@ -43,10 +61,15 @@ def pattern_matching(pattern: str) -> bool:
 def detect_coordinate(position: int) -> tuple[int, int]:
     y = 0
     x = 0
+    # iterate position through the size of the box
     for val in range(1, position):
+        # if we get the modulo if box length
+        # we add x position with one
+        # and reset y position back to zero
         if val % 3 == 0:
             x = x + 1
             y = 0
+        # else we add new y with one 
         else:
             y = y + 1
 
