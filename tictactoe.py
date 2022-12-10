@@ -26,6 +26,8 @@ class TicTacToe:
             # else we add new y with one
             else:
                 y = y + 1
+
+        # just return coordinate    
         return x, y
 
     def __input_and_read_data(self, position: int, char: str):
@@ -57,6 +59,8 @@ class TicTacToe:
         # detect if position is filled or not
         if self.box[x][y] == "-":
             return True
+
+        # just return false
         return False
 
     def __checking_pattern(
@@ -87,16 +91,21 @@ class TicTacToe:
         match flow:
             # if flow is going to right side
             case "right":
-                return self.__checking_pattern(total + 1, flow, pattern, x + 1, y)
+                x = x + 1
             # if flow is going to right side
             case "down":
-                return self.__checking_pattern(total + 1, flow, pattern, x, y + 1)
+                y = y + 1
             # if flow is going to right and down side
             case "right-down":
-                return self.__checking_pattern(total + 1, flow, pattern, x + 1, y + 1)
+                x = x + 1
+                y = y + 1
             # if flow is going to left and down side
             case "left-down":
-                return self.__checking_pattern(total + 1, flow, pattern, x - 1, y + 1)
+                x = x - 1
+                y = y + 1
+
+        # continue running recursion   
+        return self.__checking_pattern(total + 1, flow, pattern, x, y)
 
     def __pattern_matching(self, pattern: str) -> bool:
         # iterate through all position
