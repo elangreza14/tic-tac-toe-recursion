@@ -1,1 +1,1 @@
-# tic-tac-toe-recursion-dfs
+# tic-tac-toe-recursion
