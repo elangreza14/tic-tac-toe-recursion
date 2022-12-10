@@ -1,25 +1,20 @@
-# matchState = {
-#     "OPEN": "Match Is Open",
-#     "ONGOING": "Match Is Open",
-#     "FINISH": "Match Is Finish",
-# }
-
-# resultState = {
-#     "ONE": "The Winner is Player One",
-#     "TWO": "The Winner is Player Two",
-#     "DRAW": "The Match is Draw",
-# }
+resultState = {
+    "ONE": "The Winner is Player One",
+    "TWO": "The Winner is Player Two",
+    "DRAW": "The Match is Draw",
+}
 
 
 class TicTacToe:
     def __init__(self, box: list[list[str]]):
         self.box: list[list[str]] = box
         self.len_x = len(box[0])
+        self.total_round = 0
+        self.winner = resultState.get("DRAW")
         # self.match_state = matchState.get("OPEN")
-        # self.total_round = 0
         # self.result = resultState.get("DRAW")
 
-    def detectCoordinate(self, position: int):
+    def detectCoordinate(self, position: int) -> tuple[int, int]:
         y = 0
         x = 0
         # iterate position through the size of the box
@@ -130,3 +125,31 @@ class TicTacToe:
                     ):
                         return True
         return False
+
+    def isFinished(self) -> bool:
+        if self.winner != resultState.get("DRAW") or self.total_round == 9:
+            return True
+        return False
+
+    def getCurrentRound(self) -> int:
+        return self.total_round + 1
+
+    def getFinalResult(self) -> str:
+        if self.isFinished():
+            return self.winner
+        return "Match Still Running"
+
+    def run(self, num: int):
+        if self.detectCoordinateIsEmpty(num):
+            if self.total_round % 2 == 0:
+                self.inputAndReadData(num, "X")
+                if self.patternMatching("X"):
+                    self.winner = resultState.get("ONE")
+            else:
+                self.inputAndReadData(num, "O")
+                if self.patternMatching("O"):
+                    self.winner = resultState.get("TWO")
+
+            self.total_round = self.total_round + 1
+        else:
+            print(f"cannot use position")
