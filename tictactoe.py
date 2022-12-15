@@ -74,7 +74,13 @@ class TicTacToe:
         # if position y more than equal length of y-box or
         # if box[y][x] is not equal with current pattern
         # just return zero
-        if x < 0 or x >= self.__len_x or y < 0 or y >= len(self.box[x]) or self.box[y][x] != pattern:
+        if (
+            x < 0
+            or x >= self.__len_x
+            or y < 0
+            or y >= len(self.box[x])
+            or self.box[y][x] != pattern
+        ):
             return 0
 
         # we're continue searching with specific flow
@@ -107,7 +113,10 @@ class TicTacToe:
                 # execute search function
                 if value_y[index_x] == pattern and value_x == pattern:
                     for flow in ["right", "right-down", "down", "left-down"]:
-                        if self.__checking_pattern(0, flow, pattern, index_x, index_y) == self.__len_x:
+                        if (
+                            self.__checking_pattern(0, flow, pattern, index_x, index_y)
+                            == self.__len_x
+                        ):
                             return True
 
         return False
@@ -120,7 +129,7 @@ class TicTacToe:
     def get_current_round(self) -> int:
         return self.__total_round + 1
 
-    def get_final_result(self) -> str:
+    def get_final_result(self) -> str | None:
         if self.is_finished():
             return self.__winner
         return "Match Still Running"
@@ -138,4 +147,4 @@ class TicTacToe:
 
             self.__total_round = self.__total_round + 1
         else:
-            print(f"cannot use position")
+            print("cannot use position")

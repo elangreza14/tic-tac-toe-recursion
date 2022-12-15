@@ -22,9 +22,9 @@ def detect_input_two():
             if 0 < num < 10:
                 ttt.run(num)
             else:
-                print(f"please input number from 1 and 9")
+                print("please input number from 1 and 9")
         else:
-            print(f"please input number")
+            print("please input number")
 
 
 def main():
